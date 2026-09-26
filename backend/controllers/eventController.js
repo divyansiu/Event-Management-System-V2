@@ -3,9 +3,12 @@ const Event = require("../models/Event");
 const Registration = require("../models/Registration");
 
 const isValidObjectId = (id) =>
-  typeof id === "string" && mongoose.Types.ObjectId.isValid(id) && String(new mongoose.Types.ObjectId(id)) === id;
+  typeof id === "string" &&
+  mongoose.Types.ObjectId.isValid(id) &&
+  String(new mongoose.Types.ObjectId(id)) === id;
 
-const isOwner = (event, userId) => String(event.organizerId) === String(userId);
+const isOwner = (event, userId) =>
+  String(event.organizerId) === String(userId);
 
 const requiredFields = [
   "title",
@@ -21,12 +24,18 @@ const validateEventPayload = (body, { partial = false } = {}) => {
   const payload = {};
 
   const fields = partial
-    ? requiredFields.filter((field) => Object.prototype.hasOwnProperty.call(body, field))
+    ? requiredFields.filter((field) =>
+        Object.prototype.hasOwnProperty.call(body, field)
+      )
     : requiredFields;
 
   if (!partial) {
     for (const field of requiredFields) {
-      if (body[field] === undefined || body[field] === null || body[field] === "") {
+      if (
+        body[field] === undefined ||
+        body[field] === null ||
+        body[field] === ""
+      ) {
         return {
           error: `${field.charAt(0).toUpperCase() + field.slice(1)} is required`,
         };
@@ -45,18 +54,26 @@ const validateEventPayload = (body, { partial = false } = {}) => {
 
     if (field === "capacity") {
       const capacity = Number(value);
+
       if (!Number.isInteger(capacity) || capacity < 1) {
-        return { error: "Capacity must be a positive integer" };
+        return {
+          error: "Capacity must be a positive integer",
+        };
       }
+
       payload.capacity = capacity;
       continue;
     }
 
     if (field === "date") {
       const date = new Date(value);
+
       if (Number.isNaN(date.getTime())) {
-        return { error: "Date is invalid" };
+        return {
+          error: "Date is invalid",
+        };
       }
+
       payload.date = date;
       continue;
     }
@@ -73,7 +90,18 @@ const validateEventPayload = (body, { partial = false } = {}) => {
   return { payload };
 };
 
-const formatEvent = (event) => ({
+
+// Get number of active registrations for an event
+const getRegisteredCount = async (eventId) => {
+  return await Registration.countDocuments({
+    eventId,
+    status: "REGISTERED",
+  });
+};
+
+
+// Format event response
+const formatEvent = (event, registeredCount = 0) => ({
   _id: event._id,
   title: event.title,
   description: event.description,
@@ -82,20 +110,36 @@ const formatEvent = (event) => ({
   time: event.time,
   location: event.location,
   capacity: event.capacity,
+  registeredCount,
   organizerId: event.organizerId,
   createdAt: event.createdAt,
 });
 
+
+// Get all events
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find().sort({ date: 1, createdAt: -1 });
+    const events = await Event.find().sort({
+      date: 1,
+      createdAt: -1,
+    });
+
+    const formattedEvents = await Promise.all(
+      events.map(async (event) => {
+        const registeredCount = await getRegisteredCount(event._id);
+
+        return formatEvent(event, registeredCount);
+      })
+    );
 
     return res.status(200).json({
       success: true,
       message: "Events fetched successfully",
-      data: events.map(formatEvent),
+      data: formattedEvents,
     });
   } catch (error) {
+    console.error("Get events error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -103,6 +147,8 @@ exports.getEvents = async (req, res) => {
   }
 };
 
+
+// Get event by ID
 exports.getEventById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -123,12 +169,16 @@ exports.getEventById = async (req, res) => {
       });
     }
 
+    const registeredCount = await getRegisteredCount(event._id);
+
     return res.status(200).json({
       success: true,
       message: "Event fetched successfully",
-      data: formatEvent(event),
+      data: formatEvent(event, registeredCount),
     });
   } catch (error) {
+    console.error("Get event error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -136,6 +186,8 @@ exports.getEventById = async (req, res) => {
   }
 };
 
+
+// Create event
 exports.createEvent = async (req, res) => {
   try {
     const { error, payload } = validateEventPayload(req.body);
@@ -155,9 +207,11 @@ exports.createEvent = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Event created successfully",
-      data: formatEvent(event),
+      data: formatEvent(event, 0),
     });
   } catch (error) {
+    console.error("Create event error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -165,6 +219,8 @@ exports.createEvent = async (req, res) => {
   }
 };
 
+
+// Update event
 exports.updateEvent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -192,7 +248,9 @@ exports.updateEvent = async (req, res) => {
       });
     }
 
-    const { error, payload } = validateEventPayload(req.body, { partial: true });
+    const { error, payload } = validateEventPayload(req.body, {
+      partial: true,
+    });
 
     if (error) {
       return res.status(400).json({
@@ -202,14 +260,19 @@ exports.updateEvent = async (req, res) => {
     }
 
     Object.assign(event, payload);
+
     await event.save();
+
+    const registeredCount = await getRegisteredCount(event._id);
 
     return res.status(200).json({
       success: true,
       message: "Event updated successfully",
-      data: formatEvent(event),
+      data: formatEvent(event, registeredCount),
     });
   } catch (error) {
+    console.error("Update event error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -217,6 +280,8 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
+
+// Delete event
 exports.deleteEvent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -244,7 +309,10 @@ exports.deleteEvent = async (req, res) => {
       });
     }
 
-    await Registration.deleteMany({ eventId: event._id });
+    await Registration.deleteMany({
+      eventId: event._id,
+    });
+
     await event.deleteOne();
 
     return res.status(200).json({
@@ -253,6 +321,8 @@ exports.deleteEvent = async (req, res) => {
       data: {},
     });
   } catch (error) {
+    console.error("Delete event error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -260,6 +330,8 @@ exports.deleteEvent = async (req, res) => {
   }
 };
 
+
+// Get event participants
 exports.getEventParticipants = async (req, res) => {
   try {
     const { id } = req.params;
@@ -305,6 +377,8 @@ exports.getEventParticipants = async (req, res) => {
       data: participants,
     });
   } catch (error) {
+    console.error("Get participants error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error",
