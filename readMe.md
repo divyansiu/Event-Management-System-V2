@@ -4,6 +4,9 @@ A full-stack web application for managing college events, student registrations,
 
 This project is primarily being developed as a **team practice project** to learn collaborative development using Git and GitHub, including feature branches, pull requests, code reviews, integration testing, and controlled merging.
 
+<img width="1512" height="733" alt="image" src="https://github.com/user-attachments/assets/169b337c-e607-4e88-adb0-3505b152a68f" />
+
+
 ## Features
 
 ### Authentication & Roles
