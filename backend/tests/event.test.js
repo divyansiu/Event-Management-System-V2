@@ -293,7 +293,7 @@ test("DELETE /api/events/:id removes related registrations", async () => {
   await Registration.create({
     studentId: student._id,
     eventId: event._id,
-    status: "registered",
+    status: "REGISTERED",
   });
 
   const res = await request(app)
@@ -321,7 +321,7 @@ test("GET /api/events/:id/participants returns registrations for the owner", asy
   await Registration.create({
     studentId: student._id,
     eventId: event._id,
-    status: "registered",
+    status: "REGISTERED",
   });
 
   const res = await request(app)

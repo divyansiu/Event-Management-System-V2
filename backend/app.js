@@ -18,7 +18,7 @@ const mountIfPresent = (mountPath, relativeFile) => {
 
 mountIfPresent("/api/auth", "routes/authRoutes.js");
 app.use("/api/events", eventRoutes);
-mountIfPresent("/api/registrations", "routes/registrationRoutes.js");
+mountIfPresent("/api", "routes/registrationRoutes.js");
 
 app.use((req, res) => {
   res.status(404).json({
