@@ -289,7 +289,7 @@ exports.getEventParticipants = async (req, res) => {
 
     const registrations = await Registration.find({
       eventId: event._id,
-      status: "registered",
+      status: "REGISTERED",
     }).populate("studentId", "name email role");
 
     const participants = registrations.map((registration) => ({
