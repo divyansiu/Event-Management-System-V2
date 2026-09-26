@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | 🌸 CampusEvents</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🌸</span>
+        <span>CampusEvents</span>
+        <span class="logo-sub">Sakura</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="btn btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">🌸 Explore Events</a>
+        <a href="login.html" class="btn btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">Sign In</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Registration Card -->
+  <main class="container">
+    <div class="auth-container">
+      <div class="auth-card" style="border-radius: var(--radius-md);">
+        <div class="auth-header">
+          <div class="auth-badge-icon">🌸</div>
+          <h2>Join CampusEvents</h2>
+          <p>Create your university account to RSVP for festivals or host campus events!</p>
+        </div>
+
+        <form id="register-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="e.g. Aoi Tanaka" required autocomplete="name">
+            <div class="form-help">Enter your official name.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Campus Email Address</label>
+            <input type="email" id="email" placeholder="student@university.edu" required autocomplete="email">
+            <div class="form-help">Must be a valid email address.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+            <div class="form-help">Must be at least 6 characters long.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="role">Account Role</label>
+            <select id="role" required>
+              <option value="student">🎓 Student (Event Discovery & RSVP Participant)</option>
+              <option value="organizer">👑 Event Manager (Schedule & Manage Campus Events)</option>
+            </select>
+            <div class="form-help">Select "Event Manager" if you lead a club or university department.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 11px;">
+            Create Account 🌸
+          </button>
+        </form>
+
+        <div style="margin-top: 22px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 16px;">
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Already have an account? 
+            <a href="login.html" style="color: var(--sakura-pink-hover); font-weight: 700; text-decoration: none;">Sign in here 🌸</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 CampusEvents &bull; 🌸 Sakura & Kawaii Edition &bull; Registration Portal</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

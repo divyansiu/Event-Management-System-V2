@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | 🌸 CampusEvents</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🌸</span>
+        <span>CampusEvents</span>
+        <span class="logo-sub">Sakura</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="btn btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">🌸 Explore Events</a>
+        <a href="register.html" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.85rem;">Create Account</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Login Container -->
+  <main class="container">
+    <div class="auth-container">
+      
+      <!-- Switcher Tabs for Student and Organizer -->
+      <div class="auth-tabs">
+        <button id="tab-student" class="auth-tab-btn active-student" type="button">
+          🎓 Student Portal
+        </button>
+        <button id="tab-admin" class="auth-tab-btn" type="button">
+          👑 Organizer Portal
+        </button>
+      </div>
+
+      <!-- Auth Card -->
+      <div class="auth-card">
+        
+        <!-- STUDENT LOGIN FORM -->
+        <div id="student-login-panel">
+          <div class="auth-header">
+            <div class="auth-badge-icon">🎓</div>
+            <h2>Student Sign In</h2>
+            <p>Access your registered events, tickets, and campus activity feed.</p>
+          </div>
+
+          <form id="student-login-form">
+            <div class="form-group">
+              <label for="student-email">Campus Email</label>
+              <input type="email" id="student-email" placeholder="student@university.edu" value="student@university.edu" required autocomplete="email">
+              <div class="form-help">Enter your registered student email address.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="student-password">Password</label>
+              <input type="password" id="student-password" placeholder="••••••••" value="password123" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 11px;">
+              Sign In as Student 🌸
+            </button>
+          </form>
+
+          <!-- Quick Test Credentials Box -->
+          <div class="quick-helper-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span>💡 <strong>Quick Demo Account:</strong></span>
+              <button type="button" id="fill-student-demo" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.74rem;">Autofill</button>
+            </div>
+            <span>Email: <code>student@university.edu</code> | Pass: <code>password123</code></span>
+          </div>
+
+          <div style="margin-top: 22px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              New to CampusEvents? 
+              <a href="register.html" style="color: var(--sakura-pink-hover); font-weight: 700; text-decoration: none;">Create an account 🌸</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- ORGANIZER / ADMIN LOGIN FORM -->
+        <div id="admin-login-panel" style="display: none;">
+          <div class="auth-header">
+            <div class="auth-badge-icon" style="background: var(--fuji-lavender-light); color: var(--fuji-lavender);">👑</div>
+            <h2>Organizer Sign In</h2>
+            <p>Schedule campus festivals, manage capacities, and view rosters.</p>
+          </div>
+
+          <form id="admin-login-form">
+            <div class="form-group">
+              <label for="admin-email">Manager Email</label>
+              <input type="email" id="admin-email" placeholder="admin@university.edu" value="admin@university.edu" required autocomplete="email">
+              <div class="form-help">Authorized event organizer credentials.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="admin-password">Administrative Password</label>
+              <input type="password" id="admin-password" placeholder="••••••••" value="password123" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn btn-admin" style="width: 100%; margin-top: 10px; padding: 11px;">
+              Sign In to Management Console 👑
+            </button>
+          </form>
+
+          <!-- Quick Test Credentials Box -->
+          <div class="quick-helper-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span>💡 <strong>Quick Demo Account:</strong></span>
+              <button type="button" id="fill-admin-demo" class="btn btn-outline" style="padding: 3px 8px; font-size: 0.74rem;">Autofill</button>
+            </div>
+            <span>Email: <code>admin@university.edu</code> | Pass: <code>password123</code></span>
+          </div>
+
+          <div style="margin-top: 22px; text-align: center; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Need organizer access? 
+              <a href="register.html" style="color: var(--fuji-lavender); font-weight: 700; text-decoration: none;">Register as an Event Organizer</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 CampusEvents &bull; 🌸 Sakura & Kawaii Edition &bull; Authentication Portal</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const tabStudent = document.getElementById('tab-student');
+    const tabAdmin = document.getElementById('tab-admin');
+    const studentPanel = document.getElementById('student-login-panel');
+    const adminPanel = document.getElementById('admin-login-panel');
+
+    function showStudentView() {
+      tabStudent.className = 'auth-tab-btn active-student';
+      tabAdmin.className = 'auth-tab-btn';
+      studentPanel.style.display = 'block';
+      adminPanel.style.display = 'none';
+    }
+
+    function showAdminView() {
+      tabStudent.className = 'auth-tab-btn';
+      tabAdmin.className = 'auth-tab-btn active-admin';
+      studentPanel.style.display = 'none';
+      adminPanel.style.display = 'block';
+    }
+
+    tabStudent.addEventListener('click', showStudentView);
+    tabAdmin.addEventListener('click', showAdminView);
+
+    // Quick Autofill buttons
+    document.getElementById('fill-student-demo')?.addEventListener('click', () => {
+      document.getElementById('student-email').value = 'student@university.edu';
+      document.getElementById('student-password').value = 'password123';
+    });
+
+    document.getElementById('fill-admin-demo')?.addEventListener('click', () => {
+      document.getElementById('admin-email').value = 'admin@university.edu';
+      document.getElementById('admin-password').value = 'password123';
+    });
+
+    // Check query params (?role=organizer or ?role=student)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('role') === 'organizer' || params.get('role') === 'admin') {
+      showAdminView();
+    } else {
+      showStudentView();
+    }
+
+    // Student Login
+    document.getElementById('student-login-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      const email = document.getElementById('student-email').value.trim();
+      const password = document.getElementById('student-password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Signing in... 🌸';
+
+      const res = await api.auth.login({ email, password });
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+
+      const authData = res.data || res;
+      if (res.success && authData.token) {
+        TokenStorage.setToken(authData.token);
+        TokenStorage.setUser(authData.user || { name: "Student", email, role: "student" });
+        showToast(`Welcome! Signing you in... 🌸`, 'success');
+
+        setTimeout(() => {
+          const user = TokenStorage.getUser();
+          window.location.href = user && user.role === 'organizer' ? 'organizer.html' : 'student.html';
+        }, 600);
+      } else {
+        showToast(res.message || 'Invalid email or password 🌸', 'error');
+      }
+    });
+
+    // Admin / Organizer Login
+    document.getElementById('admin-login-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      const email = document.getElementById('admin-email').value.trim();
+      const password = document.getElementById('admin-password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Authenticating staff credentials... 🌸';
+
+      const res = await api.auth.login({ email, password });
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+
+      const authData = res.data || res;
+      if (res.success && authData.token) {
+        TokenStorage.setToken(authData.token);
+        TokenStorage.setUser(authData.user || { name: "Event Manager", email, role: "organizer" });
+        const user = TokenStorage.getUser();
+
+        if (user && user.role !== 'organizer') {
+          showToast('This portal is reserved for event managers. Redirecting to Student Dashboard...', 'warning');
+          setTimeout(() => {
+            window.location.href = 'student.html';
+          }, 800);
+          return;
+        }
+
+        showToast(`Welcome back! Loading Management Dashboard... 👑`, 'success');
+        setTimeout(() => {
+          window.location.href = 'organizer.html';
+        }, 600);
+      } else {
+        showToast(res.message || 'Authentication failed. Please verify credentials.', 'error');
+      }
+    });
+  </script>
+</body>
+</html>
