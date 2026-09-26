@@ -43,13 +43,13 @@ function setupNavbarAuth() {
   } else {
     navContainer.innerHTML = `
       <a href="login.html?role=student" class="btn btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">
-        🎓 Student Login
+        🎓 Student Sign In
       </a>
-      <a href="login.html?role=organizer" class="btn btn-admin" style="padding: 7px 14px; font-size: 0.85rem;">
-        👑 Manager Portal
+      <a href="login.html?role=admin" class="btn btn-admin" style="padding: 7px 14px; font-size: 0.85rem;">
+        👑 Admin Sign In
       </a>
       <a href="register.html" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.85rem;">
-        🌸 Register
+        ✨ Sign Up
       </a>
     `;
   }
